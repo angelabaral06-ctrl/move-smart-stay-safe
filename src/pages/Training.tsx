@@ -35,6 +35,15 @@ const goals = [
   },
 ];
 
+const happyNotes = [
+  "You're doing amazing — every step counts! 🌟",
+  "Keep it up! Your commitment to staying safe is inspiring! 💪",
+  "You've got this! Small steps lead to big confidence! 🎉",
+  "Your health journey matters — we're cheering for you! ❤️",
+  "Walking today? That's already a win! 🏆",
+  "Remember: progress, not perfection! You're wonderful! ☀️",
+];
+
 const tips = [
   {
     title: "How to Take a Walking Test",
@@ -107,6 +116,28 @@ const Training = () => {
           No complicated medical jargon, just simple guidance to keep you safe.
         </p>
       </motion.div>
+
+      {/* Happy Notes */}
+      <div>
+        <h2 className="text-lg font-semibold text-foreground mb-3">
+          Words of Encouragement 💛
+        </h2>
+        <div className="grid grid-cols-2 gap-2">
+          {happyNotes.map((note, i) => (
+            <motion.div
+              key={i}
+              className="bg-primary/10 border border-primary/20 rounded-2xl p-3 text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 + i * 0.05 }}
+            >
+              <p className="text-xs font-medium text-foreground leading-relaxed">
+                {note}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
 
       {/* Goals */}
       <div>
