@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Activity, ClipboardList, Phone } from "lucide-react";
+import { Home, Activity, BookOpen, ClipboardList, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navItems = [
   { path: "/", icon: Home, label: "Home" },
   { path: "/test", icon: Activity, label: "Test" },
   { path: "/activity", icon: ClipboardList, label: "Log" },
+  { path: "/training", icon: BookOpen, label: "Learn" },
   { path: "/emergency", icon: Phone, label: "Help" },
 ];
 
