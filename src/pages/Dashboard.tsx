@@ -1,6 +1,20 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Thermometer, MapPin, TrendingUp, User } from "lucide-react";
+import { Thermometer, MapPin, TrendingUp, User, Sparkles } from "lucide-react";
 import MobilityScore from "@/components/MobilityScore";
+
+const happyNotes = [
+  "You're doing amazing — every step counts! 🌟",
+  "Keep it up! Your commitment to staying safe is inspiring! 💪",
+  "You've got this! Small steps lead to big confidence! 🎉",
+  "Your health journey matters — we're cheering for you! ❤️",
+  "Walking today? That's already a win! 🏆",
+  "Remember: progress, not perfection! You're wonderful! ☀️",
+  "Every walk makes you stronger — believe in yourself! 🌈",
+  "You showed up today, and that's what matters most! 💛",
+  "One step at a time — you're on the right path! 🚶",
+  "Stay steady, stay confident — you're doing great! ✨",
+];
 import RiskCard from "@/components/RiskCard";
 import AlertCard from "@/components/AlertCard";
 
@@ -23,6 +37,8 @@ const mockAlerts = [
 ];
 
 const Dashboard = () => {
+  const dailyNote = useMemo(() => happyNotes[Math.floor(Math.random() * happyNotes.length)], []);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -40,6 +56,17 @@ const Dashboard = () => {
         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
           <User className="w-5 h-5 text-primary" />
         </div>
+      </motion.div>
+
+      {/* Happy Note */}
+      <motion.div
+        className="bg-primary/10 border border-primary/20 rounded-2xl p-4 flex items-center gap-3"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+      >
+        <Sparkles className="w-5 h-5 text-primary shrink-0" />
+        <p className="text-sm font-medium text-foreground leading-relaxed">{dailyNote}</p>
       </motion.div>
 
       {/* Mobility Score */}
