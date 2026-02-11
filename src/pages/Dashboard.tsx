@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Thermometer, MapPin, TrendingUp, User, Sparkles } from "lucide-react";
+import { Thermometer, MapPin, TrendingUp, User, Sparkles, ClipboardList } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import MobilityScore from "@/components/MobilityScore";
+import SubscriptionBanner from "@/components/SubscriptionBanner";
 
 const happyNotes = [
   "You're doing amazing — every step counts! 🌟",
@@ -37,10 +39,14 @@ const mockAlerts = [
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const dailyNote = useMemo(() => happyNotes[Math.floor(Math.random() * happyNotes.length)], []);
 
   return (
     <div className="space-y-6">
+      {/* Subscription Banner */}
+      <SubscriptionBanner />
+
       {/* Header */}
       <motion.div
         className="flex items-center justify-between"
@@ -68,6 +74,23 @@ const Dashboard = () => {
         <Sparkles className="w-5 h-5 text-primary shrink-0" />
         <p className="text-sm font-medium text-foreground leading-relaxed">{dailyNote}</p>
       </motion.div>
+
+      {/* Survey CTA */}
+      <motion.button
+        className="w-full bg-card rounded-2xl border border-border p-4 flex items-center gap-3 text-left active:scale-[0.98] transition-transform"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.07 }}
+        onClick={() => navigate("/survey")}
+      >
+        <div className="w-9 h-9 rounded-xl bg-accent flex items-center justify-center shrink-0">
+          <ClipboardList className="w-4 h-4 text-accent-foreground" />
+        </div>
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-foreground">Quick Survey</p>
+          <p className="text-xs text-muted-foreground">Help us personalize your experience</p>
+        </div>
+      </motion.button>
 
       {/* Mobility Score */}
       <motion.div
