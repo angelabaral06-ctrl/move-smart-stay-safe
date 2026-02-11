@@ -4,6 +4,9 @@ import { Thermometer, MapPin, TrendingUp, User, Sparkles, ClipboardList } from "
 import { useNavigate } from "react-router-dom";
 import MobilityScore from "@/components/MobilityScore";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
+import RiskCard from "@/components/RiskCard";
+import AlertCard from "@/components/AlertCard";
+import naturePath from "@/assets/nature-path.jpg";
 
 const happyNotes = [
   "You're doing amazing — every step counts! 🌟",
@@ -17,8 +20,6 @@ const happyNotes = [
   "One step at a time — you're on the right path! 🚶",
   "Stay steady, stay confident — you're doing great! ✨",
 ];
-import RiskCard from "@/components/RiskCard";
-import AlertCard from "@/components/AlertCard";
 
 const mockAlerts = [
   {
@@ -47,20 +48,27 @@ const Dashboard = () => {
       {/* Subscription Banner */}
       <SubscriptionBanner />
 
-      {/* Header */}
+      {/* Header with nature background */}
       <motion.div
-        className="flex items-center justify-between"
+        className="relative rounded-2xl overflow-hidden"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Good Morning</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Your mobility summary for today
-          </p>
-        </div>
-        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-          <User className="w-5 h-5 text-primary" />
+        <img
+          src={naturePath}
+          alt="Nature path"
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
+        />
+        <div className="relative p-5 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Good Morning</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              Your mobility summary for today
+            </p>
+          </div>
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <User className="w-5 h-5 text-primary" />
+          </div>
         </div>
       </motion.div>
 
