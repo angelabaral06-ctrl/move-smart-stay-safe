@@ -6,9 +6,9 @@ interface MobilityScoreProps {
 }
 
 const getScoreColor = (score: number) => {
-  if (score >= 75) return "text-safe";
-  if (score >= 50) return "text-caution";
-  if (score >= 25) return "text-warning";
+  if (score >= 75) return "text-foreground";
+  if (score >= 50) return "text-foreground";
+  if (score >= 25) return "text-destructive";
   return "text-destructive";
 };
 
@@ -17,6 +17,13 @@ const getScoreLabel = (score: number) => {
   if (score >= 50) return "Moderate";
   if (score >= 25) return "Caution";
   return "High Risk";
+};
+
+const getScoreLabelColor = (score: number) => {
+  if (score >= 75) return "text-safe";
+  if (score >= 50) return "text-caution";
+  if (score >= 25) return "text-warning";
+  return "text-destructive";
 };
 
 const getStrokeColor = (score: number) => {
@@ -66,7 +73,7 @@ const MobilityScore = ({ score, label }: MobilityScoreProps) => {
           >
             {score}%
           </motion.span>
-          <span className="text-sm text-muted-foreground font-medium">
+          <span className={`text-sm font-semibold ${getScoreLabelColor(score)}`}>
             {getScoreLabel(score)}
           </span>
         </div>

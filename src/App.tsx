@@ -9,6 +9,8 @@ import WalkingTest from "./pages/WalkingTest";
 import ActivityLog from "./pages/ActivityLog";
 import Emergency from "./pages/Emergency";
 import Training from "./pages/Training";
+import Premium from "./pages/Premium";
+import Survey from "./pages/Survey";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/activity" element={<ActivityLog />} />
             <Route path="/training" element={<Training />} />
             <Route path="/emergency" element={<Emergency />} />
+            <Route path="/premium" element={<Premium />} />
+            <Route path="/survey" element={<Survey />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>
