@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Crown, Check, Leaf, Shield, Thermometer, BookOpen, Phone, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import premiumNature from "@/assets/premium-nature.jpg";
 
 const freePlan = [
   "Basic stability tracking",
@@ -21,18 +22,25 @@ const Premium = () => {
 
   return (
     <div className="space-y-6">
+      {/* Hero with nature image */}
       <motion.div
-        className="flex items-center gap-3"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="relative rounded-2xl overflow-hidden -mx-5 -mt-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
       >
+        <img
+          src={premiumNature}
+          alt="Premium nature scene"
+          className="w-full h-48 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <button
           onClick={() => navigate(-1)}
-          className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center"
+          className="absolute top-4 left-4 w-9 h-9 rounded-xl bg-background/60 backdrop-blur-sm border border-border/50 flex items-center justify-center"
         >
           <ArrowLeft className="w-4 h-4 text-foreground" />
         </button>
-        <div>
+        <div className="absolute bottom-4 left-5">
           <h1 className="text-2xl font-bold text-foreground">Premium</h1>
           <p className="text-sm text-muted-foreground">Choose your plan</p>
         </div>
