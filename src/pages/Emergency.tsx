@@ -82,28 +82,10 @@ const Emergency = () => {
         </div>
         <ul className="space-y-2 text-sm text-muted-foreground">
           <li>• Stop walking and hold onto something stable</li>
-          <li>• Sit down slowly if possible</li>
-          <li>• Take deep breaths and wait for dizziness to pass</li>
+          <li>• Sit down if possible</li>
           <li>• Call someone if you need help</li>
-          <li>• Wait until you feel balanced before moving again</li>
-          <li>• If you fall, check for injuries before trying to get up</li>
+          <li>• Wait until you feel balanced to move again</li>
         </ul>
-      </motion.div>
-
-      {/* Supportive message */}
-      <motion.div
-        className="bg-primary/10 border border-primary/20 rounded-2xl p-5 text-center"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
-        <Heart className="w-6 h-6 text-primary mx-auto mb-2" />
-        <p className="text-sm font-semibold text-foreground">
-          Remember, you are not alone in this journey ❤️
-        </p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Your safety and well-being matter to us and to everyone who cares about you.
-        </p>
       </motion.div>
     </div>
   );

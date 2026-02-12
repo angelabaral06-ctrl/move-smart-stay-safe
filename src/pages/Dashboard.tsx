@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Thermometer, MapPin, TrendingUp, User, Sparkles, ClipboardList, Activity, Footprints, HeartPulse, Pill } from "lucide-react";
+import { Thermometer, MapPin, TrendingUp, User, Sparkles, ClipboardList } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import MobilityScore from "@/components/MobilityScore";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
@@ -110,12 +110,11 @@ const Dashboard = () => {
         <MobilityScore score={72} label="Overall Mobility Score" />
       </motion.div>
 
-      {/* CDC STEADI Risk Factors */}
+      {/* Risk Factors */}
       <div>
-        <h2 className="text-lg font-semibold text-foreground mb-1">
-          Fall Risk Indicators
+        <h2 className="text-lg font-semibold text-foreground mb-3">
+          Risk Factors
         </h2>
-        <p className="text-xs text-muted-foreground mb-3">Based on CDC STEADI fall prevention guidelines</p>
         <div className="grid grid-cols-2 gap-3">
           <RiskCard
             icon={<Thermometer className="w-4 h-4" />}
@@ -125,7 +124,7 @@ const Dashboard = () => {
           />
           <RiskCard
             icon={<MapPin className="w-4 h-4" />}
-            title="Surface Type"
+            title="Surface"
             value="Indoor"
             level="safe"
           />
@@ -140,30 +139,6 @@ const Dashboard = () => {
             title="Steps Today"
             value="1,240"
             level="safe"
-          />
-          <RiskCard
-            icon={<Activity className="w-4 h-4" />}
-            title="Timed Up & Go"
-            value="14s"
-            level="caution"
-          />
-          <RiskCard
-            icon={<Footprints className="w-4 h-4" />}
-            title="Stride Length"
-            value="0.58m"
-            level="caution"
-          />
-          <RiskCard
-            icon={<HeartPulse className="w-4 h-4" />}
-            title="Orthostatic BP"
-            value="Normal"
-            level="safe"
-          />
-          <RiskCard
-            icon={<Pill className="w-4 h-4" />}
-            title="Medications"
-            value="2 risk meds"
-            level="warning"
           />
         </div>
       </div>

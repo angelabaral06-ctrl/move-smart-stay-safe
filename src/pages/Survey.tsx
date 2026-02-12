@@ -11,56 +11,26 @@ const questions = [
   },
   {
     id: 2,
-    question: "Have you fallen in the past 12 months? (CDC STEADI screening)",
-    options: ["No falls", "1 fall without injury", "1 fall with injury", "2 or more falls"],
+    question: "Have you experienced a fall in the past 6 months?",
+    options: ["No falls", "Once", "2–3 times", "More than 3"],
   },
   {
     id: 3,
-    question: "Do you feel unsteady when standing or walking?",
-    options: ["Never", "Rarely", "Sometimes", "Often"],
+    question: "How would you rate your current balance?",
+    options: ["Excellent", "Good", "Fair", "Poor"],
   },
   {
     id: 4,
-    question: "Are you worried about falling? (Fear of Falling assessment)",
-    options: ["Not at all", "A little", "Somewhat", "Very worried"],
+    question: "Do you use any walking aids?",
+    options: ["None", "Cane", "Walker", "Wheelchair"],
   },
   {
     id: 5,
-    question: "Do you use any walking aids?",
-    options: ["None", "Cane", "Walker / Rollator", "Wheelchair"],
-  },
-  {
-    id: 6,
-    question: "How many prescription medications do you currently take?",
-    options: ["0–3", "4–6", "7–9", "10 or more"],
-  },
-  {
-    id: 7,
-    question: "Have you experienced dizziness when standing up? (Orthostatic hypotension)",
-    options: ["Never", "Rarely", "Sometimes", "Frequently"],
-  },
-  {
-    id: 8,
-    question: "Do you have any vision impairment?",
-    options: ["No issues", "Mild (corrected with glasses)", "Moderate", "Severe"],
-  },
-  {
-    id: 9,
-    question: "Do you have numbness or tingling in your feet? (Peripheral neuropathy)",
-    options: ["None", "Mild", "Moderate", "Severe"],
-  },
-  {
-    id: 10,
     question: "How often do you exercise per week?",
     options: ["Never", "1–2 times", "3–4 times", "5+ times"],
   },
   {
-    id: 11,
-    question: "Can you stand up from a chair without using your hands? (30-Second Chair Stand)",
-    options: ["Easily", "With some effort", "With difficulty", "Unable to"],
-  },
-  {
-    id: 12,
+    id: 6,
     question: "Which feature matters most to you?",
     options: ["Fall detection", "Balance training", "Emergency alerts", "Health tracking"],
   },
