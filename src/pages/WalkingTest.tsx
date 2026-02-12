@@ -111,32 +111,32 @@ const WalkingTest = () => {
               <MobilityScore score={analysis.score} label="Test Result" />
 
               <div className="w-full space-y-3">
-                <div className="flex justify-between items-center p-3 bg-secondary rounded-xl">
-                  <span className="text-sm text-muted-foreground">
+                <div className="flex justify-between items-center p-3 bg-primary/5 border border-primary/10 rounded-xl">
+                  <span className="text-sm text-foreground font-medium">
                     Movement Stability
                   </span>
-                  <span className="text-sm font-semibold text-foreground">
+                  <span className={`text-sm font-semibold ${analysis.isUnstable ? "text-destructive" : "text-safe"}`}>
                     {analysis.isUnstable ? "Unstable" : "Stable"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-secondary rounded-xl">
-                  <span className="text-sm text-muted-foreground">
+                <div className="flex justify-between items-center p-3 bg-primary/5 border border-primary/10 rounded-xl">
+                  <span className="text-sm text-foreground font-medium">
                     Average Jerk
                   </span>
                   <span className="text-sm font-semibold text-foreground">
                     {analysis.avgJerk.toFixed(1)} m/s³
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-secondary rounded-xl">
-                  <span className="text-sm text-muted-foreground">
+                <div className="flex justify-between items-center p-3 bg-primary/5 border border-primary/10 rounded-xl">
+                  <span className="text-sm text-foreground font-medium">
                     Max Tilt
                   </span>
                   <span className="text-sm font-semibold text-foreground">
                     {analysis.maxTilt.toFixed(1)}°
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-secondary rounded-xl">
-                  <span className="text-sm text-muted-foreground">
+                <div className="flex justify-between items-center p-3 bg-primary/5 border border-primary/10 rounded-xl">
+                  <span className="text-sm text-foreground font-medium">
                     Test Duration
                   </span>
                   <span className="text-sm font-semibold text-foreground">

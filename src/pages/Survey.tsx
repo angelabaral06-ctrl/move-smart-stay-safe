@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardList } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardList, Crown, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { usePremium } from "@/hooks/usePremium";
 
 const questions = [
   {
@@ -38,9 +39,43 @@ const questions = [
 
 const Survey = () => {
   const navigate = useNavigate();
+  const { isPremium } = usePremium();
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [completed, setCompleted] = useState(false);
+
+  if (!isPremium) {
+    return (
+      <div className="space-y-6">
+        <motion.div
+          className="bg-card rounded-3xl border border-border p-8 flex flex-col items-center gap-4 text-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+            <Lock className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground">Premium Feature</h2>
+          <p className="text-sm text-muted-foreground">
+            The personalized survey is available for Premium members. Upgrade to unlock tailored safety recommendations.
+          </p>
+          <button
+            onClick={() => navigate("/premium")}
+            className="bg-primary text-primary-foreground px-6 py-3 rounded-2xl text-sm font-semibold active:scale-95 transition-transform mt-2 flex items-center gap-2"
+          >
+            <Crown className="w-4 h-4" />
+            Upgrade to Premium
+          </button>
+          <button
+            onClick={() => navigate(-1)}
+            className="text-sm text-muted-foreground underline"
+          >
+            Go back
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
 
   const q = questions[current];
   const progress = ((current + 1) / questions.length) * 100;
