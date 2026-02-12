@@ -1,6 +1,9 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Thermometer, MapPin, TrendingUp, User, Sparkles, ClipboardList } from "lucide-react";
+import {
+  Thermometer, MapPin, TrendingUp, User, Sparkles, ClipboardList,
+  Footprints, Timer, ShieldAlert, Activity, Heart, HeartHandshake
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import MobilityScore from "@/components/MobilityScore";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
@@ -143,6 +146,122 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* CDC Fall Risk Assessment */}
+      <div>
+        <h2 className="text-lg font-semibold text-foreground mb-1">
+          CDC Fall Risk Assessment
+        </h2>
+        <p className="text-xs text-muted-foreground mb-3">
+          Based on the CDC STEADI (Stopping Elderly Accidents, Deaths & Injuries) initiative
+        </p>
+        <div className="space-y-3">
+          {/* Gait & Balance */}
+          <motion.div
+            className="bg-card rounded-2xl border border-border p-4 space-y-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-caution/10 flex items-center justify-center">
+                <Footprints className="w-4 h-4 text-caution" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Gait & Balance</p>
+                <p className="text-xs text-muted-foreground">Speed, symmetry & stability</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="bg-secondary/20 rounded-xl p-2.5 text-center">
+                <p className="text-xs text-muted-foreground">Speed</p>
+                <p className="text-sm font-bold text-foreground">0.9 m/s</p>
+                <span className="text-[10px] font-medium text-caution">Moderate</span>
+              </div>
+              <div className="bg-secondary/20 rounded-xl p-2.5 text-center">
+                <p className="text-xs text-muted-foreground">Symmetry</p>
+                <p className="text-sm font-bold text-foreground">82%</p>
+                <span className="text-[10px] font-medium text-safe">Good</span>
+              </div>
+              <div className="bg-secondary/20 rounded-xl p-2.5 text-center">
+                <p className="text-xs text-muted-foreground">Sway</p>
+                <p className="text-sm font-bold text-foreground">4.2°</p>
+                <span className="text-[10px] font-medium text-caution">Mild</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Functional Mobility — TUG Test */}
+          <motion.div
+            className="bg-card rounded-2xl border border-border p-4 space-y-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Timer className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Functional Mobility (TUG)</p>
+                <p className="text-xs text-muted-foreground">Timed Up & Go test</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-1 bg-secondary/20 rounded-xl p-3">
+                <p className="text-xs text-muted-foreground">Last TUG Time</p>
+                <p className="text-2xl font-bold text-foreground">14.2<span className="text-sm font-medium text-muted-foreground ml-1">sec</span></p>
+              </div>
+              <div className="flex-1 space-y-1.5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Risk Level</span>
+                  <span className="font-semibold text-caution">Moderate</span>
+                </div>
+                <div className="h-2 bg-secondary/30 rounded-full overflow-hidden">
+                  <div className="h-full w-[60%] bg-caution rounded-full" />
+                </div>
+                <p className="text-[10px] text-muted-foreground">{"<12s Normal · 12-20s Moderate · >20s High Risk"}</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Fall History & Confidence */}
+          <motion.div
+            className="bg-card rounded-2xl border border-border p-4 space-y-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-destructive/10 flex items-center justify-center">
+                <ShieldAlert className="w-4 h-4 text-destructive" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Fall History & Confidence</p>
+                <p className="text-xs text-muted-foreground">Self-reported assessment</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-secondary/20 rounded-xl p-3">
+                <p className="text-xs text-muted-foreground">Falls (6 months)</p>
+                <p className="text-xl font-bold text-foreground">1</p>
+                <span className="text-[10px] font-medium text-caution">Low frequency</span>
+              </div>
+              <div className="bg-secondary/20 rounded-xl p-3">
+                <p className="text-xs text-muted-foreground">Fear of Falling</p>
+                <p className="text-xl font-bold text-foreground">Low</p>
+                <span className="text-[10px] font-medium text-safe">Confident</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 p-2.5 bg-safe/5 border border-safe/15 rounded-xl">
+              <Activity className="w-3.5 h-3.5 text-safe shrink-0" />
+              <p className="text-xs text-muted-foreground">
+                FES-I Score: <span className="font-semibold text-foreground">22/64</span> — Low concern about falling
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
       {/* Recent Alerts */}
       <div>
         <h2 className="text-lg font-semibold text-foreground mb-3">
@@ -154,6 +273,38 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+
+      {/* Supportive Help Section */}
+      <motion.div
+        className="bg-card rounded-2xl border border-border p-5 space-y-4"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="flex items-center gap-2.5">
+          <HeartHandshake className="w-5 h-5 text-primary" />
+          <h2 className="text-base font-semibold text-foreground">You're Supported</h2>
+        </div>
+        <ul className="space-y-2.5 text-sm text-muted-foreground">
+          <li className="flex items-start gap-2">
+            <Heart className="w-3.5 h-3.5 text-destructive shrink-0 mt-0.5" />
+            Talk to your doctor about your fall risk score and what exercises can help.
+          </li>
+          <li className="flex items-start gap-2">
+            <Heart className="w-3.5 h-3.5 text-destructive shrink-0 mt-0.5" />
+            Use our walking test regularly to track your progress over time.
+          </li>
+          <li className="flex items-start gap-2">
+            <Heart className="w-3.5 h-3.5 text-destructive shrink-0 mt-0.5" />
+            Share your results with your care team for personalized guidance.
+          </li>
+        </ul>
+        <div className="pt-2 border-t border-border">
+          <p className="text-sm font-semibold text-foreground text-center">
+            Remember, you are not alone in this journey ❤️
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 };
