@@ -35,6 +35,26 @@ const questions = [
     question: "Which feature matters most to you?",
     options: ["Fall detection", "Balance training", "Emergency alerts", "Health tracking"],
   },
+  {
+    id: 7,
+    question: "Are you sensitive to heat or high temperatures?",
+    options: ["Not at all", "Slightly", "Moderately", "Very sensitive"],
+  },
+  {
+    id: 8,
+    question: "Do hot conditions affect your balance or mobility?",
+    options: ["Never", "Rarely", "Sometimes", "Often"],
+  },
+  {
+    id: 9,
+    question: "Would you like heat & weather risk alerts?",
+    options: ["Yes, always notify me", "Only when extreme", "Only during walks", "Not needed"],
+  },
+  {
+    id: 10,
+    question: "What environment do you walk in most?",
+    options: ["Indoor (home/mall)", "Outdoor sidewalks", "Parks/trails", "Mixed"],
+  },
 ];
 
 const Survey = () => {
@@ -57,7 +77,7 @@ const Survey = () => {
           </div>
           <h2 className="text-xl font-bold text-foreground">Premium Feature</h2>
           <p className="text-sm text-muted-foreground">
-            The personalized survey is available for Premium members. Upgrade to unlock tailored safety recommendations.
+            The personalized survey includes heat sensitivity, weather alerts, and tailored safety recommendations. Upgrade to unlock it.
           </p>
           <button
             onClick={() => navigate("/premium")}
@@ -109,7 +129,7 @@ const Survey = () => {
           </div>
           <h2 className="text-xl font-bold text-foreground">Thank You!</h2>
           <p className="text-sm text-muted-foreground">
-            Your responses help us personalize your safety experience and provide better recommendations.
+            Your responses help us personalize your safety experience, including heat warnings and environmental risk alerts.
           </p>
           <button
             onClick={() => navigate("/")}

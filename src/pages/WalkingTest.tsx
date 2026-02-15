@@ -1,7 +1,9 @@
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Square, RotateCcw } from "lucide-react";
+import { Play, Square, RotateCcw, Shield, Music } from "lucide-react";
 import { useMotionSensor } from "@/hooks/useMotionSensor";
 import MobilityScore from "@/components/MobilityScore";
+import { useJazzAudio, playAlertSound } from "@/hooks/useAudio";
 
 const formatTime = (seconds: number) => {
   const m = Math.floor(seconds / 60);
@@ -9,11 +11,49 @@ const formatTime = (seconds: number) => {
   return `${m}:${s.toString().padStart(2, "0")}`;
 };
 
+const TEST_DURATION = 30;
+
 const WalkingTest = () => {
   const { isTracking, analysis, elapsed, startTracking, stopTracking } =
     useMotionSensor();
+  const [showPermission, setShowPermission] = useState(false);
+  const jazz = useJazzAudio();
+  const alertPlayedRef = useRef(false);
+
+  // Auto-stop at 30 seconds
+  useEffect(() => {
+    if (isTracking && elapsed >= TEST_DURATION) {
+      jazz.stop();
+      stopTracking();
+    }
+  }, [isTracking, elapsed, stopTracking, jazz]);
+
+  // Play alert sound when unstable result detected
+  useEffect(() => {
+    if (analysis?.isUnstable && !alertPlayedRef.current) {
+      alertPlayedRef.current = true;
+      playAlertSound();
+    }
+  }, [analysis]);
+
+  const handleStartRequest = () => {
+    alertPlayedRef.current = false;
+    setShowPermission(true);
+  };
+
+  const handleConfirmStart = () => {
+    setShowPermission(false);
+    jazz.play();
+    startTracking();
+  };
+
+  const handleStop = () => {
+    jazz.stop();
+    stopTracking();
+  };
 
   const reset = () => {
+    jazz.stop();
     window.location.reload();
   };
 
@@ -33,7 +73,46 @@ const WalkingTest = () => {
         transition={{ delay: 0.1 }}
       >
         <AnimatePresence mode="wait">
-          {!isTracking && !analysis && (
+          {/* Permission Dialog */}
+          {showPermission && (
+            <motion.div
+              key="permission"
+              className="flex flex-col items-center gap-5 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                <Shield className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-foreground">Sensor Access Required</h2>
+                <p className="text-sm text-muted-foreground mt-2 max-w-xs">
+                  Eco Step needs access to your device's motion sensors (IMU) to track your walking stability. Your data stays on your device.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/30 rounded-xl p-3">
+                <Music className="w-4 h-4 text-primary shrink-0" />
+                <span>Relaxing jazz music will play during the test</span>
+              </div>
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => setShowPermission(false)}
+                  className="flex-1 py-3 rounded-xl bg-secondary text-secondary-foreground text-sm font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmStart}
+                  className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold active:scale-95 transition-transform"
+                >
+                  Allow & Start
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {!showPermission && !isTracking && !analysis && (
             <motion.div
               key="start"
               className="flex flex-col items-center gap-6"
@@ -54,7 +133,7 @@ const WalkingTest = () => {
                 </p>
               </div>
               <button
-                onClick={startTracking}
+                onClick={handleStartRequest}
                 className="bg-primary text-primary-foreground px-8 py-3.5 rounded-2xl text-base font-semibold shadow-lg shadow-primary/20 active:scale-95 transition-transform"
               >
                 Start Test
@@ -73,7 +152,7 @@ const WalkingTest = () => {
               <div className="relative">
                 <div className="w-28 h-28 rounded-full bg-primary/10 flex items-center justify-center">
                   <span className="text-3xl font-bold text-primary">
-                    {formatTime(elapsed)}
+                    {formatTime(TEST_DURATION - elapsed)}
                   </span>
                 </div>
                 <motion.div
@@ -90,8 +169,12 @@ const WalkingTest = () => {
                   Keep walking naturally
                 </p>
               </div>
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Music className="w-3.5 h-3.5 text-primary animate-pulse" />
+                <span>Jazz playing...</span>
+              </div>
               <button
-                onClick={stopTracking}
+                onClick={handleStop}
                 className="bg-destructive text-destructive-foreground px-8 py-3.5 rounded-2xl text-base font-semibold active:scale-95 transition-transform flex items-center gap-2"
               >
                 <Square className="w-4 h-4" />
@@ -116,7 +199,7 @@ const WalkingTest = () => {
                     Movement Stability
                   </span>
                   <span className={`text-sm font-semibold ${analysis.isUnstable ? "text-destructive" : "text-safe"}`}>
-                    {analysis.isUnstable ? "Unstable" : "Stable"}
+                    {analysis.isUnstable ? "⚠️ Unstable" : "✅ Stable"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-primary/5 border border-primary/10 rounded-xl">
@@ -154,7 +237,7 @@ const WalkingTest = () => {
                       ⚠️ Unstable movement detected
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Consider consulting with your healthcare provider about
+                      An alert sound was played. Consider consulting with your healthcare provider about
                       balance exercises.
                     </p>
                   </motion.div>
@@ -184,15 +267,15 @@ const WalkingTest = () => {
           </li>
           <li className="flex items-start gap-2">
             <span className="text-primary font-bold">2.</span>
-            Walk naturally for at least 15 seconds
+            Walk naturally for 30 seconds (auto-stops)
           </li>
           <li className="flex items-start gap-2">
             <span className="text-primary font-bold">3.</span>
-            Your phone's sensors measure your stability
+            Your phone's IMU sensors measure stability
           </li>
           <li className="flex items-start gap-2">
             <span className="text-primary font-bold">4.</span>
-            Get a percentage score with risk assessment
+            Get a score with risk assessment & alert sounds
           </li>
         </ul>
       </div>
