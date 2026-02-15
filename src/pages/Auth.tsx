@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
-import { Leaf, Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import ecoStepLogo from "@/assets/eco-step-logo.png";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
@@ -57,16 +58,11 @@ const Auth = () => {
         animate={{ opacity: 1, y: 0 }}
       >
         {/* Logo */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-            <Leaf className="w-8 h-8 text-primary" />
-          </div>
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-foreground">Eco Step</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Move smart, stay safe
-            </p>
-          </div>
+        <div className="flex flex-col items-center gap-2">
+          <img src={ecoStepLogo} alt="Eco Step logo" className="w-32 h-32 object-contain" />
+          <p className="text-sm text-muted-foreground">
+            Move smart, stay safe
+          </p>
         </div>
 
         {/* Form */}
