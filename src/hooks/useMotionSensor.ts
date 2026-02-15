@@ -20,7 +20,6 @@ const calculateScore = (readings: MotionReading[]): MotionAnalysis => {
     return { score: 100, readings, isUnstable: false, avgJerk: 0, maxTilt: 0 };
   }
 
-  // Calculate jerk (rate of change of acceleration)
   let totalJerk = 0;
   let maxTilt = 0;
 
@@ -34,16 +33,26 @@ const calculateScore = (readings: MotionReading[]): MotionAnalysis => {
     const jerk = Math.sqrt(jx * jx + jy * jy + jz * jz);
     totalJerk += jerk;
 
-    const tilt = Math.abs(readings[i].x) + Math.abs(readings[i].y);
-    maxTilt = Math.max(maxTilt, tilt);
+    // Tilt calculated from accelerometer: angle from vertical
+    const ax = readings[i].x;
+    const ay = readings[i].y;
+    const az = readings[i].z;
+    const totalAcc = Math.sqrt(ax * ax + ay * ay + az * az);
+    // Tilt angle in degrees from vertical (z-axis)
+    const tiltAngle = totalAcc > 0 ? Math.acos(Math.min(1, Math.abs(az) / totalAcc)) * (180 / Math.PI) : 0;
+    maxTilt = Math.max(maxTilt, tiltAngle);
   }
 
   const avgJerk = totalJerk / (readings.length - 1);
-  const isUnstable = avgJerk > 15 || maxTilt > 12;
+  
+  // Classify stability using IMU-derived metrics
+  // avgJerk: rate of change of acceleration — high jerk = jerky/unstable gait
+  // maxTilt: maximum deviation from vertical — high tilt = loss of balance
+  const isUnstable = avgJerk > 15 || maxTilt > 25;
 
-  // Score: lower jerk = higher score
+  // Score calculation based on IMU analysis
   const jerkPenalty = Math.min(avgJerk * 2, 60);
-  const tiltPenalty = Math.min(maxTilt * 1.5, 30);
+  const tiltPenalty = Math.min(maxTilt * 0.8, 30);
   const score = Math.max(0, Math.min(100, Math.round(100 - jerkPenalty - tiltPenalty)));
 
   return { score, readings, isUnstable, avgJerk, maxTilt };
@@ -81,7 +90,7 @@ export const useMotionSensor = () => {
     setElapsed(0);
     startTimeRef.current = Date.now();
 
-    // Request permission on iOS
+    // Request permission on iOS 13+
     if (
       typeof (DeviceMotionEvent as any).requestPermission === "function"
     ) {
@@ -100,7 +109,7 @@ export const useMotionSensor = () => {
     window.addEventListener("devicemotion", handleMotion);
     setIsTracking(true);
 
-    // Simulate sensor data for desktop testing
+    // Desktop simulation fallback for testing when no real IMU is available
     if (!window.DeviceMotionEvent || navigator.userAgent.includes("Win") || navigator.userAgent.includes("Mac")) {
       const simInterval = setInterval(() => {
         const t = (Date.now() - startTimeRef.current) / 1000;
