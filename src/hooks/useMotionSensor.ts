@@ -13,6 +13,7 @@ export interface MotionAnalysis {
   isUnstable: boolean;
   avgJerk: number;
   maxTilt: number;
+  totalAccMagnitude: number;
 }
 
 const calculateScore = (readings: MotionReading[]): MotionAnalysis => {
