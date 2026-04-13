@@ -18,7 +18,7 @@ export interface MotionAnalysis {
 
 const calculateScore = (readings: MotionReading[]): MotionAnalysis => {
   if (readings.length < 10) {
-    return { score: 100, readings, isUnstable: false, avgJerk: 0, maxTilt: 0 };
+    return { score: 100, readings, isUnstable: false, avgJerk: 0, maxTilt: 0, totalAccMagnitude: 0 };
   }
 
   let totalJerk = 0;
