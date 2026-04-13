@@ -45,6 +45,7 @@ const WalkingTest = () => {
   const handleStartRequest = () => {
     savedRef.current = false;
     alertPlayedRef.current = false;
+    setShowPermission(true);
   };
 
   const handleConfirmStart = () => {
