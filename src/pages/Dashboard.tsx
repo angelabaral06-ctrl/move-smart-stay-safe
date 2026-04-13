@@ -29,8 +29,9 @@ const happyNotes = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const { isPremium } = usePremium();
-  const { tug, chairStand, balance, overallRiskPercent, overallRiskLevel } = useSteadi();
+  const { tug, chairStand, balance, walking, overallRiskPercent, overallRiskLevel, gaitSpeed, symmetry, fesiScore, fearOfFalling } = useSteadi();
   const dailyNote = useMemo(() => happyNotes[Math.floor(Math.random() * happyNotes.length)], []);
+  const testsCompleted = [tug, chairStand, balance, walking].filter(Boolean).length;
 
   const riskColorMap = {
     none: "text-muted-foreground",
@@ -161,9 +162,9 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            <MetricBox label="Speed" value="-- m/s" sub="No data" />
-            <MetricBox label="Symmetry" value="0%" sub="No data" />
-            <MetricBox label="Sway" value="0.0°" sub="No data" />
+            <MetricBox label="Speed" value={gaitSpeed !== null ? `${gaitSpeed} m/s` : "-- m/s"} sub={walking ? (gaitSpeed! < 0.8 ? "Below avg" : "Normal") : "No data"} />
+            <MetricBox label="Symmetry" value={symmetry !== null ? `${symmetry}%` : "0%"} sub={walking ? (symmetry! >= 70 ? "Good" : "Irregular") : "No data"} />
+            <MetricBox label="Sway" value={walking ? `${walking.maxTilt.toFixed(1)}°` : "0.0°"} sub={walking ? (walking.maxTilt > 25 ? "High" : "Normal") : "No data"} />
           </div>
         </motion.div>
       </div>
@@ -180,13 +181,13 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <MetricBox label="Falls (6 months)" value="0" sub="No data" large />
-          <MetricBox label="Fear of Falling" value="0%" sub="No data" large />
+          <MetricBox label="Falls (6 months)" value={walking?.isUnstable ? "⚠️ Risk" : "0"} sub={testsCompleted > 0 ? "From assessments" : "No data"} large />
+          <MetricBox label="Fear of Falling" value={testsCompleted > 0 ? `${fearOfFalling}%` : "0%"} sub={testsCompleted > 0 ? (fearOfFalling > 50 ? "High concern" : "Low concern") : "No data"} large />
         </div>
         <div className="flex items-center gap-2 p-2.5 bg-muted/30 border border-border rounded-xl">
           <Activity className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
           <p className="text-xs text-muted-foreground">
-            FES-I Score: <span className="font-semibold text-foreground">0/64</span> — Complete tests to update
+            FES-I Score: <span className="font-semibold text-foreground">{fesiScore}/64</span> — {testsCompleted === 0 ? "Complete tests to update" : `Based on ${testsCompleted}/4 assessments`}
           </p>
         </div>
       </motion.div>
