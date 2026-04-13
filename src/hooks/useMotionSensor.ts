@@ -13,11 +13,12 @@ export interface MotionAnalysis {
   isUnstable: boolean;
   avgJerk: number;
   maxTilt: number;
+  totalAccMagnitude: number;
 }
 
 const calculateScore = (readings: MotionReading[]): MotionAnalysis => {
   if (readings.length < 10) {
-    return { score: 100, readings, isUnstable: false, avgJerk: 0, maxTilt: 0 };
+    return { score: 100, readings, isUnstable: false, avgJerk: 0, maxTilt: 0, totalAccMagnitude: 0 };
   }
 
   let totalJerk = 0;
@@ -55,7 +56,14 @@ const calculateScore = (readings: MotionReading[]): MotionAnalysis => {
   const tiltPenalty = Math.min(maxTilt * 0.8, 30);
   const score = Math.max(0, Math.min(100, Math.round(100 - jerkPenalty - tiltPenalty)));
 
-  return { score, readings, isUnstable, avgJerk, maxTilt };
+  // Calculate average acceleration magnitude
+  let totalMag = 0;
+  for (const r of readings) {
+    totalMag += Math.sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
+  }
+  const totalAccMagnitude = totalMag / readings.length;
+
+  return { score, readings, isUnstable, avgJerk, maxTilt, totalAccMagnitude };
 };
 
 export const useMotionSensor = () => {

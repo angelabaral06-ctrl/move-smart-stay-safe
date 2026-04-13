@@ -3,9 +3,13 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SteadiProvider } from "@/contexts/SteadiContext";
 import AppLayout from "./components/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import WalkingTest from "./pages/WalkingTest";
+import TUGTest from "./pages/TUGTest";
+import ChairStandTest from "./pages/ChairStandTest";
+import BalanceTest from "./pages/BalanceTest";
 import ActivityLog from "./pages/ActivityLog";
 import Emergency from "./pages/Emergency";
 import Training from "./pages/Training";
@@ -21,18 +25,23 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/test" element={<WalkingTest />} />
-            <Route path="/activity" element={<ActivityLog />} />
-            <Route path="/training" element={<Training />} />
-            <Route path="/emergency" element={<Emergency />} />
-            <Route path="/premium" element={<Premium />} />
-            <Route path="/survey" element={<Survey />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AppLayout>
+        <SteadiProvider>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/test" element={<WalkingTest />} />
+              <Route path="/tug" element={<TUGTest />} />
+              <Route path="/chair-stand" element={<ChairStandTest />} />
+              <Route path="/balance" element={<BalanceTest />} />
+              <Route path="/activity" element={<ActivityLog />} />
+              <Route path="/training" element={<Training />} />
+              <Route path="/emergency" element={<Emergency />} />
+              <Route path="/premium" element={<Premium />} />
+              <Route path="/survey" element={<Survey />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AppLayout>
+        </SteadiProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
