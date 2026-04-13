@@ -4,6 +4,7 @@ import { Play, Square, RotateCcw, Shield, Music } from "lucide-react";
 import { useMotionSensor } from "@/hooks/useMotionSensor";
 import MobilityScore from "@/components/MobilityScore";
 import { useJazzAudio, playAlertSound } from "@/hooks/useAudio";
+import { useSteadi } from "@/contexts/SteadiContext";
 
 const formatTime = (seconds: number) => {
   const m = Math.floor(seconds / 60);
@@ -19,6 +20,8 @@ const WalkingTest = () => {
   const [showPermission, setShowPermission] = useState(false);
   const jazz = useJazzAudio();
   const alertPlayedRef = useRef(false);
+  const { saveWalking } = useSteadi();
+  const savedRef = useRef(false);
 
   // Auto-stop at 30 seconds
   useEffect(() => {
@@ -28,17 +31,20 @@ const WalkingTest = () => {
     }
   }, [isTracking, elapsed, stopTracking, jazz]);
 
-  // Play alert sound when unstable result detected
+  // Save walking result and play alert if unstable
   useEffect(() => {
-    if (analysis?.isUnstable && !alertPlayedRef.current) {
-      alertPlayedRef.current = true;
-      playAlertSound();
+    if (analysis && !savedRef.current) {
+      savedRef.current = true;
+      saveWalking(analysis, elapsed);
+      if (analysis.isUnstable) {
+        playAlertSound();
+      }
     }
-  }, [analysis]);
+  }, [analysis, elapsed, saveWalking]);
 
   const handleStartRequest = () => {
+    savedRef.current = false;
     alertPlayedRef.current = false;
-    setShowPermission(true);
   };
 
   const handleConfirmStart = () => {
